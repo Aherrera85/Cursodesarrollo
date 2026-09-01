@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Manager</title>
+    <meta
+      name="description"
+      content="Aplicación web de gestión de tareas con persistencia local y diseño responsivo."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">Gestión personal</p>
+          <h1>Task Manager</h1>
+        </div>
+      </header>
+
+      <main class="app-main">
+        <section class="panel panel-form" aria-labelledby="form-title">
+          <h2 id="form-title">Nueva tarea</h2>
+          <form id="task-form" novalidate>
+            <div class="field-group">
+              <label for="task-title">Título</label>
+              <input
+                id="task-title"
+                name="title"
+                type="text"
+                maxlength="120"
+                placeholder="Ej. Revisar documentación"
+                required
+              />
+            </div>
+
+            <div class="field-group">
+              <label for="task-description">Descripción</label>
+              <textarea
+                id="task-description"
+                name="description"
+                rows="3"
+                maxlength="500"
+                placeholder="Opcional: agrega más detalle"
+              ></textarea>
+            </div>
+
+            <div class="field-grid">
+              <div class="field-group">
+                <label for="task-priority">Prioridad</label>
+                <select id="task-priority" name="priority">
+                  <option value="Alta">Alta</option>
+                  <option value="Media" selected>Media</option>
+                  <option value="Baja">Baja</option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label for="task-status">Estado</label>
+                <select id="task-status" name="status">
+                  <option value="Pendiente" selected>Pendiente</option>
+                  <option value="En Progreso">En Progreso</option>
+                  <option value="Completada">Completada</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="primary-button">Guardar tarea</button>
+            <p class="form-message" id="form-message" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <section class="panel panel-list" aria-labelledby="list-title">
+          <div class="toolbar">
+            <div>
+              <h2 id="list-title">Mis tareas</h2>
+            </div>
+
+            <div class="filters" aria-label="Filtros de tareas">
+              <div class="field-group compact">
+                <label for="priority-filter">Prioridad</label>
+                <select id="priority-filter" name="priority-filter">
+                  <option value="Todas" selected>Mostrar todas</option>
+                  <option value="Alta">Solo Alta</option>
+                  <option value="Media">Solo Media</option>
+                  <option value="Baja">Solo Baja</option>
+                </select>
+              </div>
+
+              <div class="field-group compact">
+                <label for="status-filter">Estado</label>
+                <select id="status-filter" name="status-filter">
+                  <option value="Todas" selected>Mostrar todas</option>
+                  <option value="Pendiente">Solo Pendientes</option>
+                  <option value="En Progreso">Solo En Progreso</option>
+                  <option value="Completada">Solo Completadas</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="summary" aria-live="polite">
+            <div class="summary-item pending">
+              <span class="label">Pendientes</span>
+              <strong id="pending-count">0</strong>
+            </div>
+            <div class="summary-item complete">
+              <span class="label">Completadas</span>
+              <strong id="completed-count">0</strong>
+            </div>
+          </div>
+
+          <ul id="task-list" class="task-list" aria-live="polite"></ul>
+        </section>
+      </main>
+    </div>
+
+    <div id="edit-modal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop" data-close-modal="true"></div>
+      <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-header">
+          <h3 id="modal-title">Editar tarea</h3>
+          <button type="button" class="icon-button" id="close-modal" aria-label="Cerrar modal">
+            ×
+          </button>
+        </div>
+
+        <form id="edit-form" novalidate>
+          <input type="hidden" id="edit-task-id" />
+
+          <div class="field-group">
+            <label for="edit-task-title">Título</label>
+            <input id="edit-task-title" name="title" type="text" maxlength="120" required />
+          </div>
+
+          <div class="field-group">
+            <label for="edit-task-description">Descripción</label>
+            <textarea id="edit-task-description" name="description" rows="3" maxlength="500"></textarea>
+          </div>
+
+          <div class="field-grid">
+            <div class="field-group">
+              <label for="edit-task-priority">Prioridad</label>
+              <select id="edit-task-priority" name="priority">
+                <option value="Alta">Alta</option>
+                <option value="Media">Media</option>
+                <option value="Baja">Baja</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="edit-task-status">Estado</label>
+              <select id="edit-task-status" name="status">
+                <option value="Pendiente">Pendiente</option>
+                <option value="En Progreso">En Progreso</option>
+                <option value="Completada">Completada</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="secondary-button" id="cancel-edit">Cancelar</button>
+            <button type="submit" class="primary-button">Guardar cambios</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
